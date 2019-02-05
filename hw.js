@@ -83,20 +83,25 @@ function getPeopleInSales() {
   Put the sum in the <span> element.
   If values cannot be added, put "Cannot add" in the <span> element
    */
-  function sumEvent() {
-      let num1 = document.getElementById("num1");
-      let num2 = document.getElementById("num2");
-      let displaySum = document.getElementById("sum");
-      let number1 = num1.value;
-      let number2 = num2.value;
-      let sum = +number1 + +number2;
-      if(!isNaN(+number1) && !isNaN(+number2)){
-          displaySum.innerHTML = sum;
-      }
-      else {
-          console.log("Cannot add");
-      }
-  }
+  function add(){
+	numOne = document.getElementById("num1").value;
+	numTwo = document.getElementById("num2").value;
+	console.log(`"${numOne}", "${numTwo}"`)
+	try{
+		if (numOne===''||numTwo===''||isNaN(Number(numOne))||isNaN(Number(numTwo))){
+			document.getElementById("sum").innerText = 'Cannot add';
+		} else {
+			document.getElementById("sum").innerText = Number(numOne)+Number(numTwo);
+		}
+	}catch{
+		document.getElementById("sum").innerText = 'Cannot add!';
+	}
+}
+
+function sumEvent(){
+	document.getElementById("num1").setAttribute('onchange','add()');
+	document.getElementById("num2").setAttribute('onchange','add()');
+}
   /*
   7. Skills Event
   NOTE: Write unobtrusive Javascript
@@ -104,11 +109,16 @@ function getPeopleInSales() {
       "Are you sure CSS is one of your skills?"
   NOTE: no alert should appear when user deselects a skill.
    */
-  function skillsEvent() {
-      let temp = document.querySelectorAll("select[name='skills']");
-      let selected = temp[0].options[temp[0].selectedIndex].text
-      alert("Are you sure " + selected + "is one of you skills?");
-  }
+  function skillAlert(selected){
+	window.alert(`"Are you sure ${selected} is one of your skills?"`);
+}
+
+function setSkill(){
+	empList = document.getElementsByName("skills");
+	empList.forEach(Element =>{
+		Element.setAttribute('onchange','skillAlert(this.value)');
+	});
+}
   /*
   8. Favorite Color Event
   NOTE: Write unobtrusive Javascript
@@ -139,18 +149,31 @@ function getPeopleInSales() {
       Hide the name if shown.
       Show the name if hidden.
    */
-  function showEvent() {
-      let temp = document.getElementsByClassName("empName");
-      for (let i = 0; i < temp.length; i++) {
-          temp[i].style.visibility = "visible";
-      }
-  }
-  function hideEvent() {
-      let temp = document.getElementsByClassName("empName");
-      for(let i = 0; i < temp.length; i++) {
-          temp[i].style.visibility = "hidden";
-      }
-  }
+  function showHide(text){
+	console.log(text);
+	fullList = document.querySelectorAll(".empName");
+	filteredList = [];
+	fullList.forEach(Element =>{
+		if(Element.innerHTML === text){
+			console.log(Element.innerHTML);
+			if(Element.innerHTML.includes("visibility:visible")){
+				Element.innerHTML = Element.innerHTML.replace('visibility:visible', 'visibility:hidden');
+			}else{
+				Element.innerHTML = Element.innerHTML.replace('visibility:hidden', 'visibility:visible');
+			}
+		}
+	});
+}
+
+function setShowHide(){
+	empList = document.querySelectorAll(".empName");
+	empList.forEach(Element =>{
+		Element.innerHTML = `<div style="visibility:visible">${Element.innerHTML}</div>`;
+	});
+	empList.forEach(Element =>{
+		Element.setAttribute('onmouseover','showHide(this.innerHTML)');
+	});
+}
   /*
   10. Current Time
   Regarding this element:
@@ -226,18 +249,12 @@ getHobbies();
 console.log('\n');
 console.log('Question 5:');
 getCustomAttribute();
-console.log('\n');
 sumEvent();
-console.log('\n');
-console.log('Question 7:');
-skillsEvent();
-console.log('\n');
+setSkill();
 favoriteColorEvent();
-console.log('\n');
-showEvent();
-console.log('\n');
-hideEvent();
+setShowHide();
 currentTime();
 colorDelay();
 console.log('\n');
+console.log('Question 12:');
 // walkTheDOM(document.body , func);
