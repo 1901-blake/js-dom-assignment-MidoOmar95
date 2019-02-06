@@ -129,18 +129,17 @@ function setSkill(){
   Make the background color (of all favoriteColor radio buttons) the newly selected favoriteColor
    */
   function favoriteColorEvent() {
-      let temp = document.querySelectorAll("input[name='favoriteColor']");
-      let oldColor;
-      let newColor;
-      for (let i = 0; i < temp.length; i++){
-          if(temp[i].checked){
-              if(newColor != temp[i].value){
-                  oldColor = newColor;
-                  newColor = temp[i].value;
-                  alert("So you like " + newColor + " more than " + oldColor + " now?");
-              }
-          }
-      }
+    const employees = document.getElementsByClassName('empName');
+
+    for (let i = 0; i < employees.length; i++) {
+        employees[i].addEventListener('mouseover', function() {
+            if (employees[i].style.color === 'black') {
+                employees[i].style.color = 'transparent';
+            } else {
+                employees[i].style.color = 'black';
+            }
+        })
+    }
   }
   /*
   9. Show/Hide Event
@@ -155,7 +154,6 @@ function setSkill(){
 	filteredList = [];
 	fullList.forEach(Element =>{
 		if(Element.innerHTML === text){
-			console.log(Element.innerHTML);
 			if(Element.innerHTML.includes("visibility:visible")){
 				Element.innerHTML = Element.innerHTML.replace('visibility:visible', 'visibility:hidden');
 			}else{
@@ -257,4 +255,4 @@ currentTime();
 colorDelay();
 console.log('\n');
 console.log('Question 12:');
-// walkTheDOM(document.body , func);
+walkTheDOM(document.body , func);
